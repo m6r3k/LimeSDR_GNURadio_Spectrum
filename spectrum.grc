@@ -1,0 +1,133 @@
+options:
+  parameters:
+    author: m6r3k
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: spectrum
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: '1'
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Spectrum
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: BW
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Bandwidth
+    min_len: '120'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '100000'
+    step: '100000'
+    stop: '30000000'
+    value: '30000000'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 8.0]
+    rotation: 0
+    state: true
+- name: center_freq
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '50000000'
+    step: '1000000'
+    stop: '3000000000'
+    value: '2400000000'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 8.0]
+    rotation: 0
+    state: true
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: BW
+    comment: ''
+    fc: center_freq
+    fftsize: '1024'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    plotconst: 'False'
+    plotfreq: 'True'
+    plottime: 'False'
+    plotwaterfall: 'False'
+    rate: '1000'
+    showports: 'False'
+    showrf: 'True'
+    type: complex
+    wintype: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [352, 160.0]
+    rotation: 0
+    state: true
+- name: soapy_limesdr_source_0
+  id: soapy_limesdr_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bandwidth: '0'
+    center_freq: center_freq
+    comment: ''
+    dev_args: ''
+    freq_correction: '0'
+    gain: '35.0'
+    maxoutbuf: '8192'
+    minoutbuf: '4096'
+    samp_rate: BW
+    type: fc32
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 180.0]
+    rotation: 0
+    state: true
+
+connections:
+- [soapy_limesdr_source_0, '0', qtgui_sink_x_0, '0']
+
+metadata:
+  file_format: 1
